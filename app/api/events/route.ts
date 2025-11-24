@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eventService } from "@/domains/events/event.services";
 import { createEventSchema } from "@/domains/events/event.schema";
+import { pusherServer } from "@/lib/pusher/server";
 
 export async function GET() {
   try {
@@ -31,6 +32,10 @@ export async function POST(req: NextRequest) {
     }
 
     const event = await eventService.create(parsed.data);
+
+    // PUSHER: evento creado
+    await pusherServer.trigger("events", "event-created", event);
+
     return NextResponse.json(event, { status: 201 });
   } catch (error) {
     console.error("POST /api/events error:", error);
@@ -41,15 +46,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
-
-
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
     const { id, title, description, category } = body;
 
     if (!id) {
-      return NextResponse.json({ message: "ID del evento requerido" }, { status: 400 });
+      return NextResponse.json(
+        { message: "ID del evento requerido" },
+        { status: 400 }
+      );
     }
 
     const parsed = createEventSchema.safeParse({ title, description, category });
@@ -61,6 +67,10 @@ export async function PUT(req: NextRequest) {
     }
 
     const updatedEvent = await eventService.update(id, parsed.data);
+
+    // PUSHER: evento actualizado
+    await pusherServer.trigger("events", "event-updated", updatedEvent);
+
     return NextResponse.json(updatedEvent, { status: 200 });
   } catch (error) {
     console.error("PUT /api/events error:", error);
