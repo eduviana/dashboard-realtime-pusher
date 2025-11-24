@@ -8,7 +8,7 @@ export const createEventSchema = z.object({
 
   description: z
     .string()
-    .min(10, "La descripción es obligatoria")
+    .min(10, "La descripción debe contener al menos 10 caracteres")
     .max(500, "Máximo 500 caracteres"),
 
   category: z

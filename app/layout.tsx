@@ -4,7 +4,6 @@ import "./globals.css";
 
 import { Toaster } from "@/components/ui/sonner";
 
-
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { MainWrapper } from "@/components/layout/main-wrapper";
@@ -31,14 +30,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex bg-slate-50`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex bg-slate-50`}
+      >
         <Sidebar />
 
         <div className="flex flex-1 flex-col min-h-screen">
           <Header />
           <MainWrapper>{children}</MainWrapper>
         </div>
-
         <Toaster richColors closeButton />
       </body>
     </html>

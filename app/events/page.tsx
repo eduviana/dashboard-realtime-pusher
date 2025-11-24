@@ -1,22 +1,18 @@
-import { DataTable } from "@/components/shared/data-table/DataTable";
+import { EventData } from "./_components/events-table/columns/Columns";
+import { CreateEventDialog } from "./_components/events-table/create-event-dialog/CreateEventDialog";
+import { eventService } from "@/domains/events/event.services";
+import { EventsTable } from "./_components/events-table/EventsTable";
 
-import { Button } from "@/components/ui/button";
-import { Columns, EventData } from "./_components/columns/Columns";
-import { CreateEventDialog } from "./_components/create-event-dialog/CreateEventDialog";
-
-const mockEvents: EventData[] = [
-  { id: "1", name: "Conferencia UX", date: "2025-06-15", status: "activo" },
-  { id: "2", name: "Hackathon 2025", date: "2025-03-02", status: "inactivo" },
-];
-
-export default function EventsPage() {
+export default async function EventsPage() {
+  const events: EventData[] = await eventService.fetchAllEvents();
+  console.log(events);
   return (
     <div className="p-6">
       <div className="flex justify-between">
         <h1 className="text-2xl font-semibold mb-6">Eventos</h1>
         <CreateEventDialog />
       </div>
-      <DataTable columns={Columns} data={mockEvents} />
+      <EventsTable events={events} />
     </div>
   );
 }
