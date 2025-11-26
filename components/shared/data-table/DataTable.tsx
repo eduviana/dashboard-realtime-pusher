@@ -37,14 +37,17 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-md border">
+    <div className="space-y-5">
+      <div className="rounded-md border bg-white shadow-sm">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-slate-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="text-center font-semibold text-slate-700"
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -60,13 +63,16 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow
+                  key={row.id}
+                  className="hover:bg-slate-50/75 transition-colors"
+                >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                    <TableCell
+                      key={cell.id}
+                      className="text-left text-slate-700"
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -94,7 +100,6 @@ export function DataTable<TData, TValue>({
         >
           Anterior
         </Button>
-
         <Button
           variant="outline"
           size="sm"
